@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="socialpromoter" method="upgrade">
+    <name>SocialPromoter Flickr</name>
+    <author>Daniel Eliasson (daniel at stilero.co)></author>
+    <creationDate>2013-dec-26</creationDate>
+    <copyright>Copyright (c) 2013-dec-26 Stilero Webdesign (http://www.stilero.com). All rights reserved.</copyright>
+    <authorEmail>joomla@stilero.com</authorEmail>
+    <authorUrl>www.stilero.com</authorUrl>
+    <version>1.0</version>
+    <license>GPLv2</license>
+    <description>Flickr plugin for Social Promoter</description>
+    <media destination="stilerospflickr">
+        <folder>assets</folder>
+    </media>
+    <files>
+        <filename plugin="stilerospflickr">stilerospflickr.php</filename>
+        <filename>index.html</filename>
+        <folder>elements</folder>
+        <folder>helpers</folder>
+        <folder>library</folder>
+    </files>
+    <languages folder="language">
+        <language tag="en-GB">en-GB.plg_socialpromoter_stilerospflickr.ini</language>
+        <language tag="en-GB">en-GB.plg_socialpromoter_stilerospflickr.sys.ini</language>
+    </languages>
+    <!-- Standard plugin parameters for Joomla! 1.6+ -->
+    <config>
+        <fields name="params">
+            <fieldset name="basic" label="PLG_SYSTEM_STILEROSPFLICKR_SETTINGS">
+                <field name="desc_suffix" type="text" required="false" default="" label="PLG_SYSTEM_STILEROSPFLICKR_DESC_SUFFIX" description="PLG_SYSTEM_STILEROSPFLICKR_DESC_SUFFIX_DESC"/>
+            </fieldset>
+            <fieldset name="advanced" label="PLG_SYSTEM_STILEROSPFLICKR_FBSETTINGS" addfieldpath="/plugins/socialpromoter/stilerospflickr/elements">
+                <field name="register" type="register" label="" />
+                <field name="api_key" type="text" required="true" default="" label="PLG_SYSTEM_STILEROSPFLICKR_APPID" description="PLG_SYSTEM_STILEROSPFLICKR_APPID_DESC"/>
+                <field name="api_secret" type="password" required="true" default="" label="PLG_SYSTEM_STILEROSPFLICKR_APPSECRET" description="PLG_SYSTEM_STILEROSPFLICKR_APPSECRET_DESC"/>
+                <field name="auth_token" type="hidden"  default="" label="PLG_SYSTEM_STILEROSPFLICKR_AUTHTOKEN" description="PLG_SYSTEM_STILEROSPFLICKR_AUTHTOKEN_DESC"/>
+                <field name="frob" type="hidden"  default="" label="PLG_SYSTEM_STILEROSPFLICKR_AUTHCODE" description="PLG_SYSTEM_STILEROSPFLICKR_AUTHCODE_DESC"/>
+                <field name="authorize" type="authorize" label="" />
+                <field name="fbadmin" type="fbadmin" label="" />
+                <field name="fbadmin_id" type="hidden" />
+                <field name="fb_pages" type="fbpages"  default="" label="PLG_SYSTEM_STILEROSPFLICKR_PAGEID" description="PLG_SYSTEM_STILEROSPFLICKR_PAGEID_DESC"/>
+                <field name="fb_page_id" type="hidden"  default="" label="PLG_SYSTEM_STILEROSPFLICKR_PAGEID" description="PLG_SYSTEM_STILEROSPFLICKR_PAGEID_DESC"/>
+                <field name="fbpage_auth_token" type="hidden"  default="" label="PLG_SYSTEM_STILEROSPFLICKR_AUTHTOKEN" description="PLG_SYSTEM_STILEROSPFLICKR_AUTHTOKEN_DESC"/>
+            </fieldset>
+        </fields>
+    </config>
+    <administration>
+        <languages folder="language">
+            <language tag="en-GB">en-GB.plg_socialpromoter_stilerospflickr.ini</language>
+            <language tag="en-GB">en-GB.plg_socialpromoter_stilerospflickr.sys.ini</language>
+        </languages>
+    </administration>
+</extension>
