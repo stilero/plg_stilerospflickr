@@ -16,28 +16,17 @@ if(!defined('DS')){
 }
 
 define('PATH_LIBRARY', dirname(__FILE__).DS.'library'.DS);
-JLoader::discover('StileroSPFB', PATH_LIBRARY, false, true);
-JLoader::discover('StileroSPFB', PATH_LIBRARY, false, true);
-JLoader::discover('StileroSPFBOauth', PATH_LIBRARY.'fblibrary'.DS.'fboauth'.DS);
-JLoader::discover('StileroSPFBOauth', PATH_LIBRARY.'fblibrary'.DS.'oauth'.DS);
-JLoader::discover('StileroSPFBEndpoint', PATH_LIBRARY, false, true);
-//JLoader::discover('StileroSPFBEndpoint', PATH_LIBRARY.'fblibrary'.DS.'endpoint'.DS, true);
-//JLoader::discover('StileroSPFBOauth', PATH_LIBRARY.'fboauth', true, true);
+JLoader::discover('StileroFlickr', PATH_LIBRARY, false, true);
+JLoader::register('StileroFlickr', PATH_LIBRARY.DS.'flickr.php');
 JLoader::register('SocialpromoterImporter', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_socialpromoter'.DS.'helpers'.DS.'importer.php');
 JLoader::register('SocialpromoterPosttype', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_socialpromoter'.DS.'library'.DS.'posttype.php');
-//jimport('joomla.plugin.plugin');
 jimport('joomla.event.plugin');
 
 class plgSocialpromoterStilerospflickr extends JPlugin {
-    protected $Facebook;
-    protected $AccessToken;
-    protected $Feed;
-    protected $pageId;
-    protected $adminId;
+    protected $Flickr;
     protected $api_key;
     protected $api_secret;
     protected $auth_token;
-    protected $_fbpageAuthToken;
     protected $_desc_suffix;
     
     const SP_NAME = 'Flickr Plugin';
@@ -50,85 +39,54 @@ class plgSocialpromoterStilerospflickr extends JPlugin {
         $language = JFactory::getLanguage();
         $language->load('plg_socialpromoter_stilerospflickr', JPATH_ADMINISTRATOR, 'en-GB', true);
         $language->load('plg_socialpromoter_stilerospflickr', JPATH_ADMINISTRATOR, null, true);
-        $this->setParams();
+        $this->_setParams();
     }
         
     /**
-     * Reads the params and sets them in the class 
+     * Reads the params and sets them in the class if they are not properly loaded
+     * by default
      */
-    protected function setParams(){
+    private function _setParams(){
         if(!isset($this->params)){
             $plg = JPluginHelper::getPlugin('socialpromoter', 'stilerospflickr');
             $plg_params = new JRegistry();
             $plg_params->loadString($plg->params);
             $this->params = $plg_params;
         }
-        $this->adminId = $this->params->def('fbadmin_id');
-        $this->pageId = $this->params->def('fb_pages');
         $this->api_key = $this->params->def('api_key');
         $this->api_secret = $this->params->def('api_secret');
         $this->auth_token = $this->params->def('auth_token');
         $this->_desc_suffix = $this->params->def('desc_suffix');
     }
-    
     /**
-     * Checks if the post is to a personal wall or a page. It compares the page id
-     * with the admin id, and if they mat
-     * @return boolean true if personal post
-     */
-    protected function isPersonalPost(){
-            $this->Facebook->User->setUserId('me');
-            $me = $this->Facebook->User->me();
-            $user = StileroSPFBOauthResponse::handle($me);
-            if($user->id == $this->pageId){
-                $this->Facebook->Photos->setUserId('me');
-                $this->params->set('fb_pages', '');
-                StileroSPFBPluginparamshelper::storeParams($this->params, 'autofbook');
-                return true;
-            }
-    }
-    
-    /**
-     * Wraps up after a call. Shows messages and updates tokens
+     * Wraps up after a call. Shows messages
      * @param string $response JSON response from FB
      */
-    protected function wrapUp($response){
-        $postResponse = StileroSPFBOauthResponse::handle($response);
-        if(isset($postResponse->id)){
-            return true;
-        }else if($postResponse == null){
+    private function _wrapUp($response){
+        $processedResponse = StileroFlickrResponse::handle($response);
+        if(isset($processedResponse->photoid)){
+            return $processedResponse->photoid;
+        }else if($processedResponse == null){
             return false;
         }else{
             return false;
         }
     }
-    
     /**
-     * Prepares for a FB Page call
+     * Posts an image to Flickr
+     * @param string $url Full local url to the photo to upload
+     * @param string $title The title of the photo.
+     * @param string $description A description of the photo. May contain some limited HTML.
+     * @param string $tags A space-seperated list of tags to apply to the photo.
      */
-    protected function initFBPageCall(){
-        $response = $this->Facebook->User->getTokenForPageWithId($this->pageId);
-        $this->_fbpageAuthToken = StileroSPFBOauthResponse::handle($response);
-        $this->Facebook->Photos->setToken($this->_fbpageAuthToken);
-        $this->Facebook->Photos->setUserId($this->pageId);
-    }
-    
-    public function postImage($url, $title='', $description='', $tags=''){
-        $redirectUri = JURI::root();
-        $this->Facebook = new StileroSPFBFacebook($this->api_key, $this->api_secret, $redirectUri);
-        $this->Facebook->setAccessTokenFromToken($this->auth_token);
-        $this->Facebook->init();
-        $this->isPersonalPost();
-        if($this->pageId != ''){
-            if(!$this->isPersonalPost()){
-                $this->initFBPageCall();
-            }
-        }else{
-            $this->Facebook->Photos->setUserId('me');
-        }
-        $caption = $description.$this->_desc_suffix.' '.$tags;
-        $response = $this->Facebook->Photos->publishFromUrl($url, $caption);
-        return $this->wrapUp($response);
+    public function postImage($url, $title, $description, $tags){
+        $this->Flickr = new StileroFlickr($this->api_key, $this->api_secret);
+        $file = realpath(str_replace(JUri::root(), JPATH_ROOT.DS, $url));
+        $this->Flickr = new StileroFlickr($this->api_key, $this->api_secret);
+        $this->Flickr->setAccessToken($this->auth_token);
+        $this->Flickr->init();
+        $response = $this->Flickr->Photouploader->upload($file, $title, $description, $tags);
+        return $this->_wrapUp($response);
     }
     
 } //End Class

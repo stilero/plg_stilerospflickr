@@ -52,7 +52,7 @@ class StileroFlickr{
         }else if( StileroFlickrFrob::hasFrobInGetRequest() ){
             $this->Frob->fetchFrob();
             $Authtoken = new StileroFlickrAuthtoken($this->Api, $this->Frob);
-            $Authtoken->getToken();
+            $Authtoken->requestToken();
             $this->access_token = $Authtoken->token;
         }if(isset($this->access_token)){
             $this->_endpoints();

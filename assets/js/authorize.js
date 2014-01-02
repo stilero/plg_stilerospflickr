@@ -1,5 +1,5 @@
 /**
-* MooTools script for authorising with Facebook
+* MooTools script for authorising with Flickr
 *
 * @version  1.2
 * @author Daniel Eliasson - joomla at stilero.com
@@ -8,49 +8,77 @@
 * @license    GPLv2
 */
 window.addEvent('domready', function(){
-    var appID = $(appIdElement).value;
-    var appSecret = $(appSecretElement).value;
-    var redirectURI = catcherURI;
-    var authCode = $(authCodeElement).value;
+    var api_key = $(apiKeyElement).value;
+    var api_secret = $(apiSecretElement).value;
+    var frob = $(frobElement).value;
     var authElmnt = $(authorizeElement).get('html');
     var loader = '<span class="ajaxloader-blue"></span>';
-        
+    
     /**
-     * Method for handling the looks and function of the Connect button
+     * Sets the Button href link.
+     * @param Object response response object
+     * @returns void
      */    
-    var setButtonHref = function(){
-        var link = 'https://www.facebook.com/dialog/oauth' + 
-            '?client_id=' + appID +
-            '&redirect_uri=' + redirectURI +
-            '&scope=publish_stream,share_item,offline_access,manage_pages,user_groups,user_status';
-            $(authorizeElement).href = link;
-        if($(accessTokenElement).value == ''){
-            $(authorizeElement).innerHTML = 'Connect to FB';
+    var setButtonHref = function(response){
+        //var link = getUrl();
+        if(response !== undefined){
+            $(authorizeElement).href = response.url;
+        }
+        if($(authTokenElement).value === ''){
+            $(authorizeElement).innerHTML = 'Connect to Flickr';
             $(authorizeElement).set('class', 'fbconnect');
         }else{
-            $(authorizeElement).innerHTML = 'Remove FB Connection';
+            $(authorizeElement).innerHTML = 'Remove Flickr Connection';
             $(authorizeElement).set('class', 'fbdisconnect');
         }
+    };
+    
+    /**
+     * Returns a prebuilt url from the urlbuilder helper to request frobs
+     * @returns string url
+     */
+    var getUrl = function(){
+        var url = $(urlbuilderElement).value;
+        var urlRequest = new Request.JSON({
+            url: url,
+            method: 'get',
+            data:{'api_key': api_key, 
+                'api_secret': api_secret
+            },
+            onRequest: function(){
+            },
+            onSuccess: function(response){
+                setButtonHref(response);
+                //return response.url;
+            },
+            onFailure: function(response){
+                //alert(PLG_SYSTEM_AUTOFBOOK_JS_FAILURE + response.status);
+            },
+            onComplete: function(response){
+                //return response.url;
+            }
+        });
+        urlRequest.cancel().send();
     };
     
     /**
      * Method for clearing and resetting authorisation
      */
     var clearAuthorization = function(){
-        $(authCodeElement).value = '';
+        $(frobElement).value = '';
         $(fbPageIdElement).value = '';
-        $(accessTokenElement).value = '';
+        $(authTokenElement).value = '';
         $(authorizeElement).innerHTML = 'Connect to FB';
         setButtonHref();
-        $(accessTokenElement).fireEvent('change');
+        $(authTokenElement).fireEvent('change');
     };
     
     /**
-     * Method for displaying the connect button when all fileds are entered
+     * Method for displaying the connect button when all fields are entered
      */
     var displayButton = function(){
-        setButtonHref();
-        if(appID == '' || appSecret == '' || redirectURI == ''){
+        getUrl();
+        if(api_key === '' || api_secret === ''){
             $(authorizeElement).setStyle( 'display', 'none');
         }else{
              //setButtonHref();
@@ -75,37 +103,41 @@ window.addEvent('domready', function(){
     };
     
     var postAuthorization = function(){
-        $(authCodeElement).value = '';
+        $(frobElement).value = '';
         //alert(PLG_SYSTEM_AUTOFBOOK_JS_SUCCESS);
-        $(accessTokenElement).fireEvent('change');
+        $(authTokenElement).fireEvent('change');
         setButtonHref();
-    }
+    };
     
+    /**
+     * Handles the response after successful request
+     * @param Object response Response object
+     * @returns void
+     */
     var handleResponse = function(response){
-        if(response.access_token == 'undefined'){
+        if(response.access_token === 'undefined'){
             var errormsg = '(' + response.code + ')' +
                 response.type + '\n' +
                 response.message;
                 alert(errormsg);
         }else{
-            //$(accessTokenElement).value = response.access_token;
-            //postAuthorization();
-            
-            $(accessTokenElement).value = response.access_token;
+            $(authTokenElement).value = response.access_token;
             postAuthorization();
         }
     };
-    
+    /**
+     * Requests an access token
+     * @returns void
+     */
     var requestAccessToken = function(){
-        authCode = $(authCodeElement).value;
         var reqUrl = helpersURI + 'authorizer.php';
+        console.log(reqUrl);
         var myRequest = new Request.JSON({
             url: reqUrl,
             method: 'post',
-            data:{'client_id': appID,
-                'client_secret': appSecret,
-                'code': authCode,
-                'redirect_uri': catcherURI
+            data:{'api_key': api_key,
+                'api_secret': api_secret,
+                'frob': frob
             },
             onRequest: function(){
             },
@@ -119,36 +151,46 @@ window.addEvent('domready', function(){
                 $(authorizeElement).set('html', authElmnt);
             }
         });
-        
         myRequest.cancel().send();    
     };
-    
-    displayButton();
-    
+    /**
+     * Initializes the requesting of access token
+     * @returns void
+     */
+    var authorize = function(){
+        if(frob !== ''){
+            requestAccessToken();
+        }
+    };
     /**
      * Event Listeners
      */
-    $(appIdElement).addEvent('keyup', function(){
-        appID = $(appIdElement).value;
+    $(apiKeyElement).addEvent('keyup', function(){
+        api_key = $(apiKeyElement).value;
         displayButton();
     });
     
-    $(appSecretElement).addEvent('keyup', function(){
-        appSecret = $(appSecretElement).value;
+    $(apiSecretElement).addEvent('keyup', function(){
+        api_secret = $(apiSecretElement).value;
         displayButton();
     });
     
-    $(authCodeElement).addEvent('change', function(){
-        authCode = $(authCodeElement).value;
+    $(frobElement).addEvent('change', function(){
+        frob = $(frobElement).value;
         requestAccessToken();
     });
         
     $(authorizeElement).addEvent('click', function(e){
-        if($(accessTokenElement).value != ''){
+        if($(authTokenElement).value !== ''){
             e.preventDefault();
             clearAuthorization();
         }else{
             showLoader();
         }
     });
+    /**
+     * Auto fired methods
+     */
+    authorize();
+    displayButton();
 });

@@ -41,6 +41,7 @@ class StileroFlickrPhotouploader{
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_POST,1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $response=curl_exec ($ch);
         curl_close ($ch);
         return $response;
@@ -78,8 +79,9 @@ class StileroFlickrPhotouploader{
         $params['api_sig'] = $signature;
         $file_name_with_full_path = realpath($file);
         $params['photo'] = '@'.$file_name_with_full_path;
-        $response = $this->curlIt(self::API_URL_UPLOAD, $params);
-        return $response;
+        $xml = $this->curlIt(self::API_URL_UPLOAD, $params);
+        $json = StileroFlickrXmltojson::parse($xml);
+        return $json;
     }
     
     /**
@@ -98,7 +100,8 @@ class StileroFlickrPhotouploader{
         $params['api_sig'] = $signature;
         $file_name_with_full_path = realpath($file);
         $params['photo'] = '@'.$file_name_with_full_path;
-        $response = $this->curlIt(self::API_URL_REPLACE, $params);
-        return $response;
+        $xml = $this->curlIt(self::API_URL_REPLACE, $params);
+        $json = StileroFlickrXmltojson::parse($xml);
+        return $json;
     }
 }

@@ -14,11 +14,11 @@ defined('_JEXEC') or die('Restricted access');
 
 class fbauthorize{
     
-    const ASSETS_PATH = 'media/stilerospfacebook/assets/';
-    const IMG_PATH = 'media/stilerospfacebook/assets/images/';
-    const JS_PATH = 'media/stilerospfacebook/assets/js/';
-    const CATCHER_URI = 'plugins/socialpromoter/stilerospfacebook/helpers/catcherJ16.php';
-    const HELPERS_URI = 'plugins/socialpromoter/stilerospfacebook/helpers/';
+    const ASSETS_PATH = 'media/stilerospflickr/assets/';
+    const IMG_PATH = 'media/stilerospflickr/assets/images/';
+    const JS_PATH = 'media/stilerospflickr/assets/js/';
+    const CATCHER_URI = 'plugins/socialpromoter/stilerospflickr/helpers/catcherJ16.php';
+    const HELPERS_URI = 'plugins/socialpromoter/stilerospflickr/helpers/';
     const GENERAL_JS = 'authorize.js';
     const ELEMENTS_JS = 'j16Elements.js';
     const CONNECTBUTTON_IMG = 'connect-button.png';

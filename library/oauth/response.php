@@ -24,7 +24,7 @@ class StileroFlickrResponse{
     public $isError;
    
     private static function sanitize($response){
-        $json = '';
+        $json = $response;
         if(strpos($response, 'jsonFlickrApi') !== FALSE){
             $withoutStart = str_replace('jsonFlickrApi(', '', $response);
             $withoutEnd = str_replace(')', '', $withoutStart);
@@ -47,6 +47,17 @@ class StileroFlickrResponse{
                     return $decoded;
                 }
             }
+        }else if( isset($decoded->attributes->stat) ){
+            if($decoded->attributes->stat == 'fail'){
+                if(isset($decoded->err->attributes)){
+                    JError::raiseError($decoded->err->attributes->code, $decoded->err->attributes->msg);
+                }
+            }else{
+                if(is_object($decoded)){
+                    return $decoded;
+                }
+            }
+            
         }else{
             return $json;
        }

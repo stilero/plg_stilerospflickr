@@ -72,7 +72,7 @@ window.addEvent('domready', function(){
      * AJAX method for retrieving pages
      */
     var requestPages = function(){
-        if($(accessTokenElement).value == ''){
+        if($(authTokenElement).value == ''){
             $(fbPagesElement).set('html', defaultSelectList);
             return;
         }
@@ -82,7 +82,7 @@ window.addEvent('domready', function(){
             url: 'https://graph.facebook.com/me/accounts',
             method: 'post',
             data:{
-                'access_token': $(accessTokenElement).value,
+                'access_token': $(authTokenElement).value,
                 'grant_type': 'manage_pages'
             },
             onRequest: function(){
@@ -110,7 +110,7 @@ window.addEvent('domready', function(){
         $(fbPageAuthTokenElement).value = pages[pageID];
     });
     
-    $(accessTokenElement).addEvent('change', function(){
+    $(authTokenElement).addEvent('change', function(){
         requestPages();
     });
     

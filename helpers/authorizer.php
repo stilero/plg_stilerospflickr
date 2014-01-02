@@ -13,31 +13,28 @@ define('_JEXEC', 1);
 if(!defined('DS')){
     define('DS', DIRECTORY_SEPARATOR);
 }
-define('PATH_FBLIBRARY_AUTH', '..'.DS.'library'.DS.'authentication'.DS);
-define('PATH_FBLIBRARY_OAUTH', '..'.DS.'library'.DS.'oauth'.DS);
-require_once PATH_FBLIBRARY_OAUTH.'communicator.php';
-require_once PATH_FBLIBRARY_OAUTH.'client.php';
-require_once PATH_FBLIBRARY_AUTH.'authtoken.php';
-require_once PATH_FBLIBRARY_AUTH.'frob.php';
-require_once PATH_FBLIBRARY_OAUTH.'api.php';
-require_once PATH_FBLIBRARY_OAUTH.'jerror.php';
-require_once PATH_FBLIBRARY_OAUTH.'response.php';
-$api_key = StileroSPFBOauthCode::sanitizeInt($_POST['api_key']);
-$api_secret = StileroSPFBOauthCode::sanitizeString($_POST['api_secret']);
-$frob = StileroSPFBOauthCode::sanitizeString($_POST['frob']);
-$redirectURI = StileroSPFBOauthCode::sanitizeUrl($_POST['redirect_uri']);
-$Api = new StileroSPFBOauthApp($api_key, $api_secret);
-$AuthToken = new StileroFlickrAuthtoken($Api);
-$json = $AuthToken->getTokenFromCode($frob, $redirectURI);
-$response = StileroSPFBOauthResponse::handle($json);
-$AuthToken->tokenFromResponse($response);
-$token = $AuthToken->token;
-if($AuthToken->isShortTerm($token)){
-    $json = $AuthToken->extend();
-    $response = StileroSPFBOauthResponse::handle($json);
-    $AuthToken->tokenFromResponse($response);
-    $token = $AuthToken->token;
-}
+define('PATH_FLICKR_LIBRARY_AUTH', '..'.DS.'library'.DS.'authentication'.DS);
+define('PATH_FLICKR_LIBRARY_OAUTH', '..'.DS.'library'.DS.'oauth'.DS);
+define('PATH_FLICKR_LIBRARY_HELPERS', '..'.DS.'library'.DS.'helpers'.DS);
+require_once PATH_FLICKR_LIBRARY_OAUTH.'communicator.php';
+//require_once PATH_FLICKR_LIBRARY_OAUTH.'client.php';
+require_once PATH_FLICKR_LIBRARY_AUTH.'authtoken.php';
+require_once PATH_FLICKR_LIBRARY_AUTH.'frob.php';
+require_once PATH_FLICKR_LIBRARY_OAUTH.'api.php';
+require_once PATH_FLICKR_LIBRARY_OAUTH.'jerror.php';
+require_once PATH_FLICKR_LIBRARY_OAUTH.'response.php';
+require_once PATH_FLICKR_LIBRARY_OAUTH.'signature.php';
+require_once PATH_FLICKR_LIBRARY_HELPERS.'sanitizer.php';
+
+$api_key = StileroFlickrSanitizer::sanitizeString($_POST['api_key']);
+$api_secret = StileroFlickrSanitizer::sanitizeString($_POST['api_secret']);
+$frob = StileroFlickrSanitizer::sanitizeString($_POST['frob']);
+//$redirectURI = StileroSPFBOauthCode::sanitizeUrl($_POST['redirect_uri']);
+$Api = new StileroFlickrApi($api_key, $api_secret);
+$Frob = new StileroFlickrFrob();
+$Frob->setFrob($frob);
+$AuthToken = new StileroFlickrAuthtoken($Api, $Frob);
+$token = $AuthToken->requestToken();
 $jsonResponse = <<<EOD
 {
    "access_token": "$token"

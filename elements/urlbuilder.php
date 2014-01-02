@@ -15,21 +15,17 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Class for customising the register form field
  */
-class JFormFieldRegister extends JFormField {
+class JFormFieldUrlbuilder extends JFormField {
     
-    protected $type = 'register';
-    const REGISTER_URL = 'http://www.flickr.com/services/apps/create/';
+    protected $type = 'urlbuilder';
+    
     /**
      * Returns the HTML for the form input
      * @return string HTML
      */
     protected function getInput(){
-        $htmlCode = '<span class="readonly">
-                <a href=\''.JFormFieldRegister::REGISTER_URL.'\' id=\''.$this->id.'\' target=\'_blank\'>
-                    Create A Facebook App
-                </a>
-            </span>';
-
+        $url = JUri::root().'plugins/socialpromoter/stilerospflickr/helpers/urlbuilder.php';
+        $htmlCode = '<input id="'.$this->id.'" name="'.$this->name.'" type="text" class="text_area" size="9" value="'.$url.'"/>';
         return $htmlCode;
     }
     

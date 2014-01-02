@@ -16,9 +16,9 @@ defined('_JEXEC') or die('Restricted access');
  */
 class fbPages{
     
-    const ASSETS_PATH = 'media/stilerospfacebook/assets/';
-    const IMAGE_PATH = 'media/stilerospfacebook/assets/images/';
-    const JS_PATH = 'media/stilerospfacebook/assets/js/';
+    const ASSETS_PATH = 'media/stilerospflickr/assets/';
+    const IMAGE_PATH = 'media/stilerospflickr/assets/images/';
+    const JS_PATH = 'media/stilerospflickr/assets/js/';
     const FBPAGES_JS = 'fbpages.js';
     const ELEMENTS_JS = 'j16Elements.js';
     

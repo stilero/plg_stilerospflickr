@@ -30,17 +30,21 @@
                 <field name="desc_suffix" type="text" required="false" default="" label="PLG_SYSTEM_STILEROSPFLICKR_DESC_SUFFIX" description="PLG_SYSTEM_STILEROSPFLICKR_DESC_SUFFIX_DESC"/>
             </fieldset>
             <fieldset name="advanced" label="PLG_SYSTEM_STILEROSPFLICKR_FBSETTINGS" addfieldpath="/plugins/socialpromoter/stilerospflickr/elements">
+                <field name="redirecturl" type="redirecturl" label="Redirect URL" />
                 <field name="register" type="register" label="" />
                 <field name="api_key" type="text" required="true" default="" label="PLG_SYSTEM_STILEROSPFLICKR_APPID" description="PLG_SYSTEM_STILEROSPFLICKR_APPID_DESC"/>
                 <field name="api_secret" type="password" required="true" default="" label="PLG_SYSTEM_STILEROSPFLICKR_APPSECRET" description="PLG_SYSTEM_STILEROSPFLICKR_APPSECRET_DESC"/>
-                <field name="auth_token" type="hidden"  default="" label="PLG_SYSTEM_STILEROSPFLICKR_AUTHTOKEN" description="PLG_SYSTEM_STILEROSPFLICKR_AUTHTOKEN_DESC"/>
-                <field name="frob" type="hidden"  default="" label="PLG_SYSTEM_STILEROSPFLICKR_AUTHCODE" description="PLG_SYSTEM_STILEROSPFLICKR_AUTHCODE_DESC"/>
+                <field name="auth_token" type="text"  default="" label="PLG_SYSTEM_STILEROSPFLICKR_AUTHTOKEN" description="PLG_SYSTEM_STILEROSPFLICKR_AUTHTOKEN_DESC"/>
+                <field name="frob" type="frob"  default="" label="PLG_SYSTEM_STILEROSPFLICKR_AUTHCODE" description="PLG_SYSTEM_STILEROSPFLICKR_AUTHCODE_DESC"/>
                 <field name="authorize" type="authorize" label="" />
+                <!--
                 <field name="fbadmin" type="fbadmin" label="" />
                 <field name="fbadmin_id" type="hidden" />
                 <field name="fb_pages" type="fbpages"  default="" label="PLG_SYSTEM_STILEROSPFLICKR_PAGEID" description="PLG_SYSTEM_STILEROSPFLICKR_PAGEID_DESC"/>
                 <field name="fb_page_id" type="hidden"  default="" label="PLG_SYSTEM_STILEROSPFLICKR_PAGEID" description="PLG_SYSTEM_STILEROSPFLICKR_PAGEID_DESC"/>
                 <field name="fbpage_auth_token" type="hidden"  default="" label="PLG_SYSTEM_STILEROSPFLICKR_AUTHTOKEN" description="PLG_SYSTEM_STILEROSPFLICKR_AUTHTOKEN_DESC"/>
+                -->
+                <field name="urlbuilder" type="urlbuilder" default="" label="PLG_SYSTEM_STILEROSPFLICKR_AUTHTOKEN" description="PLG_SYSTEM_STILEROSPFLICKR_AUTHTOKEN_DESC"/>
             </fieldset>
         </fields>
     </config>

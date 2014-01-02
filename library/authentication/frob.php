@@ -17,56 +17,13 @@ defined('_JEXEC') or die('Restricted access');
 class StileroFlickrFrob{
     
     public $frob;
-    const SANITIZE_STRING = '/[^A-Z0-9_\.-]/i';
-    const SANITIZE_INT = '/[^A-Z0-9_\.-]/i';
-    const SANITIZE_URL = '/[^A-Z0-9_\.-]/i';
-    
-    /**
-     * Sanitizes a string
-     * @param string $string String to sanitize
-     * @param string $type Preg pattern to use
-     * @param string $filter filter type to use
-     * @return string Filtered and sanitized string
-     */
-    protected static function sanitize($string, $type, $filter){
-        $cleaned = (string) preg_replace($type, '', $string);
-        $trimmed = ltrim($cleaned, '.');
-        $filtered = filter_var($trimmed, $filter);
-        return $filtered;
-    }
-    /**
-     * Cleans strings and strips out unwanted characters
-     * @param string $string
-     * @return string cleaned string
-     */
-    public static function sanitizeString($string){
-        return self::sanitize($string, self::SANITIZE_STRING, FILTER_SANITIZE_STRING);
-    }
-    
-    /**
-     * Cleans ints and strips out unwanted characters
-     * @param string $string
-     * @return string cleaned string
-     */
-    public static function sanitizeInt($string){
-        return self::sanitize($string, self::SANITIZE_INT, FILTER_SANITIZE_NUMBER_INT);
-    }
-    
-    /**
-     * Cleans urls and strips out unwanted characters
-     * @param string $string
-     * @return string cleaned string
-     */
-    public static function sanitizeUrl($string){
-        return self::sanitize($string, self::SANITIZE_URL, FILTER_SANITIZE_URL);
-    }
     
     /**
      * Fetches the oauth code from a get request
      */
     public function fetchFrob(){
         if(isset($_GET['frob'])){
-            $sanitizedFrob = self::sanitizeString($_GET['frob']);
+            $sanitizedFrob = StileroFlickrSanitizer::sanitizeString($_GET['frob']);
             $this->frob = $sanitizedFrob;
         }
     }
@@ -88,6 +45,6 @@ class StileroFlickrFrob{
      * @param string $frob
      */
     public function setFrob($frob){
-        $this->frob = self::sanitizeString($frob);
+        $this->frob = StileroFlickrSanitizer::sanitizeString($frob);
     }
 }

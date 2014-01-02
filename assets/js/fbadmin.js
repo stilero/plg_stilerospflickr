@@ -56,7 +56,7 @@ window.addEvent('domready', function(){
      * AJAX method for retrieving info about the admin
      */
     var requestAdmin = function(){
-        if($(accessTokenElement).value == ''){
+        if($(authTokenElement).value == ''){
             $(fbAdminElement).set('text', PLG_SYSTEM_AUTOFBOOK_JS_NOT_AUTHORIZED);
             return;
         }
@@ -66,7 +66,7 @@ window.addEvent('domready', function(){
             url: 'https://graph.facebook.com/me',
             method: 'post',
             data:{
-                'access_token': $(accessTokenElement).value
+                'access_token': $(authTokenElement).value
             },
             onRequest: function(){
                 $(fbAdminElement).set('class', 'readonly ajaxloader');
@@ -87,7 +87,7 @@ window.addEvent('domready', function(){
     /**
      * Event listeners
      */    
-    $(accessTokenElement).addEvent('change', function(){
+    $(authTokenElement).addEvent('change', function(){
         requestAdmin();
     });
     
