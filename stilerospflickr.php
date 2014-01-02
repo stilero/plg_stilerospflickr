@@ -73,6 +73,16 @@ class plgSocialpromoterStilerospflickr extends JPlugin {
         }
     }
     /**
+     * Cleans the tags and removes # and , to comply with Flickr.
+     * @param string $tags
+     * @return string Cleaned tags
+     */
+    private function _cleanTags($tags){
+        $noHash = str_replace('#', '', $tags);
+        $noComma = str_replace(',', ' ', $noHash);
+        return $noComma;
+    }
+    /**
      * Posts an image to Flickr
      * @param string $url Full local url to the photo to upload
      * @param string $title The title of the photo.
@@ -85,7 +95,8 @@ class plgSocialpromoterStilerospflickr extends JPlugin {
         $this->Flickr = new StileroFlickr($this->api_key, $this->api_secret);
         $this->Flickr->setAccessToken($this->auth_token);
         $this->Flickr->init();
-        $response = $this->Flickr->Photouploader->upload($file, $title, $description, $tags);
+        $cleanedTags = $this->_cleanTags($tags);
+        $response = $this->Flickr->Photouploader->upload($file, $title, $description, $cleanedTags);
         return $this->_wrapUp($response);
     }
     
