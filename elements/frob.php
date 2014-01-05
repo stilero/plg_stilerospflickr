@@ -26,7 +26,7 @@ class JFormFieldFrob extends JFormField {
         if($value != ''){
             $this->value = $jinput->get('frob', '');
         }
-        $htmlCode = '<input id="'.$this->id.'" name="'.$this->name.'" type="text" class="text_area" size="9" value="'.$this->value.'"/>';
+        $htmlCode = '<input id="'.$this->id.'" name="'.$this->name.'" type="hidden" class="text_area" size="9" value="'.$this->value.'"/>';
         return $htmlCode;
     }
 
@@ -34,6 +34,7 @@ class JFormFieldFrob extends JFormField {
         $toolTip = JText::_($this->element['description']);
         $text = JText::_($this->element['label']);
         $labelHTML = '<label id="'.$this->id.'-lbl" for="'.$this->id.'" class="hasTip" title="'.$text.'::'.$toolTip.'">'.$text.'</label>';
+        return;
         return $labelHTML;
     }
 

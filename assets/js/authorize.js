@@ -26,10 +26,10 @@ window.addEvent('domready', function(){
         }
         if($(authTokenElement).value === ''){
             $(authorizeElement).innerHTML = 'Connect to Flickr';
-            $(authorizeElement).set('class', 'fbconnect');
+            $(authorizeElement).set('class', 'fbconnect  btn btn-success');
         }else{
             $(authorizeElement).innerHTML = 'Remove Flickr Connection';
-            $(authorizeElement).set('class', 'fbdisconnect');
+            $(authorizeElement).set('class', 'fbdisconnect  btn btn-danger');
         }
     };
     
@@ -66,9 +66,9 @@ window.addEvent('domready', function(){
      */
     var clearAuthorization = function(){
         $(frobElement).value = '';
-        $(fbPageIdElement).value = '';
+        //$(fbPageIdElement).value = '';
         $(authTokenElement).value = '';
-        $(authorizeElement).innerHTML = 'Connect to FB';
+        $(authorizeElement).innerHTML = 'Connect to Flikcr';
         setButtonHref();
         $(authTokenElement).fireEvent('change');
     };
@@ -83,7 +83,7 @@ window.addEvent('domready', function(){
         }else{
              //setButtonHref();
             $(authorizeElement).setStyle( 'opacity', '0');
-            $(authorizeElement).setStyle( 'display', 'block');
+            //$(authorizeElement).setStyle( 'display', 'block');
             $(authorizeElement).fade('in');
         }
     };

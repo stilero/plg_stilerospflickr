@@ -25,8 +25,8 @@ class JFormFieldRegister extends JFormField {
      */
     protected function getInput(){
         $htmlCode = '<span class="readonly">
-                <a href=\''.JFormFieldRegister::REGISTER_URL.'\' id=\''.$this->id.'\' target=\'_blank\'>
-                    Create A Facebook App
+                <a class=\'btn btn-primary btn-lg\' href=\''.JFormFieldRegister::REGISTER_URL.'\' id=\''.$this->id.'\' target=\'_blank\'>
+                    Create A Flickr App
                 </a>
             </span>';
 

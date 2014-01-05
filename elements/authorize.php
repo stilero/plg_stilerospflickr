@@ -48,16 +48,16 @@ EOD;
      * @return string HTML
      */
     static function connectButton($id){
-        $buttonImage = JUri::root() . fbauthorize::IMG_PATH . fbauthorize::CONNECTBUTTON_IMG;
+        //$buttonImage = JUri::root() . fbauthorize::IMG_PATH . fbauthorize::CONNECTBUTTON_IMG;
         $htmlCode = 
             '<a '.
                 'id="'.$id.'" '.
-                'class="fbconnect" '.
+                'class="fbconnect btn btn-success btn-lg" '.
                 'title="Connect" '.
                 'href="#" '.
                 'target="_blank" >'.
                 //'<img src="'.$buttonImage.'" />'.
-                'Connect to FB'.
+                'Connect to Flickr'.
             '</a>';
         $htmlCode = '<span class="readonly">'.$htmlCode.'</span>';
         return $htmlCode;

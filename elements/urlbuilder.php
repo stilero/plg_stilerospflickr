@@ -25,7 +25,7 @@ class JFormFieldUrlbuilder extends JFormField {
      */
     protected function getInput(){
         $url = JUri::root().'plugins/socialpromoter/stilerospflickr/helpers/urlbuilder.php';
-        $htmlCode = '<input id="'.$this->id.'" name="'.$this->name.'" type="text" class="text_area" size="9" value="'.$url.'"/>';
+        $htmlCode = '<input id="'.$this->id.'" name="'.$this->name.'" type="hidden" class="text_area" size="9" value="'.$url.'"/>';
         return $htmlCode;
     }
     
@@ -37,6 +37,7 @@ class JFormFieldUrlbuilder extends JFormField {
         $toolTip = JText::_($this->element['description']);
         $text = JText::_($this->element['label']);
         $labelHTML = '<label id="'.$this->id.'-lbl" for="'.$this->id.'" class="hasTip" title="'.$text.'::'.$toolTip.'">'.$text.'</label>';
+        return;
         return $labelHTML;
     }
 }//End Class
