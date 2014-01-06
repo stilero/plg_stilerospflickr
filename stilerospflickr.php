@@ -15,9 +15,9 @@ if(!defined('DS')){
     define('DS', DIRECTORY_SEPARATOR);
 }
 
-define('PATH_LIBRARY', dirname(__FILE__).DS.'library'.DS);
-JLoader::discover('StileroFlickr', PATH_LIBRARY, false, true);
-JLoader::register('StileroFlickr', PATH_LIBRARY.DS.'flickr.php');
+define('PATH_FLICKR_LIBRARY', dirname(__FILE__).DS.'library'.DS);
+JLoader::discover('StileroFlickr', PATH_FLICKR_LIBRARY, false, true);
+JLoader::register('StileroFlickr', PATH_FLICKR_LIBRARY.DS.'flickr.php');
 JLoader::register('SocialpromoterImporter', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_socialpromoter'.DS.'helpers'.DS.'importer.php');
 JLoader::register('SocialpromoterPosttype', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_socialpromoter'.DS.'library'.DS.'posttype.php');
 jimport('joomla.event.plugin');
