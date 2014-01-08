@@ -90,7 +90,7 @@ class plgSocialpromoterStilerospflickr extends JPlugin {
      * @param string $tags A space-seperated list of tags to apply to the photo.
      */
     public function postImage($url, $title, $description, $tags){
-        $this->Flickr = new StileroFlickr($this->api_key, $this->api_secret);
+        //$this->Flickr = new StileroFlickr($this->api_key, $this->api_secret);
         $file = realpath(str_replace(JUri::root(), JPATH_ROOT.DS, $url));
         $this->Flickr = new StileroFlickr($this->api_key, $this->api_secret);
         $this->Flickr->setAccessToken($this->auth_token);
@@ -98,6 +98,19 @@ class plgSocialpromoterStilerospflickr extends JPlugin {
         $cleanedTags = $this->_cleanTags($tags);
         $response = $this->Flickr->Photouploader->upload($file, $title, $description, $cleanedTags);
         return $this->_wrapUp($response);
+    }
+    /**
+     * Get all comments for Photo
+     * @param integer $photo_id
+     * @return string RAW JSON Response
+     */
+    public function getComments($photo_id){
+        $this->Flickr = new StileroFlickr($this->api_key, $this->api_secret);
+        $this->Flickr->setAccessToken($this->auth_token);
+        $this->Flickr->init();
+        $response = $this->Flickr->Photoscomments->getList($photo_id);
+        $processedResponse = StileroFlickrResponse::handle($response);
+        return $processedResponse;
     }
     
 } //End Class
