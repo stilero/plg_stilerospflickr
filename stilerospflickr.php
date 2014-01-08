@@ -110,7 +110,17 @@ class plgSocialpromoterStilerospflickr extends JPlugin {
         $this->Flickr->init();
         $response = $this->Flickr->Photoscomments->getList($photo_id);
         $processedResponse = StileroFlickrResponse::handle($response);
-        return $processedResponse;
+        $comments = array();
+        if(isset($processedResponse->comments->comment)){
+            foreach ($processedResponse->comments->comment as $comment) {
+                $standardizedComment = new stdClass();
+                $standardizedComment->time = StileroFlickrBoardhelper::timeToText($comment->datecreate);
+                $standardizedComment->name = $comment->authorname;
+                $standardizedComment->text = $comment->_content;
+                $comments[] = $standardizedComment;
+            }
+        }
+        return $comments;
     }
     
 } //End Class
