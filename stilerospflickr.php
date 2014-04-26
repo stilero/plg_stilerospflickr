@@ -2,7 +2,7 @@
 /**
  * Stilero Social Promoter Flickr Plugin
  *
- * @version  1.0
+ * @version  1.1
  * @author Daniel Eliasson <daniel at stilero.com>
  * @copyright  (C) 2013-dec-26 Stilero Webdesign (http://www.stilero.com)
  * @category Plugins
@@ -28,6 +28,9 @@ class plgSocialpromoterStilerospflickr extends JPlugin {
     protected $api_secret;
     protected $auth_token;
     protected $_desc_suffix;
+    protected $_defaultTitle;
+    protected $_defaultDesc;
+    protected $_defaultTags;
     
     const SP_NAME = 'Flickr Plugin';
     const SP_DESCRIPTION = 'Posts photos to Flickr';
@@ -57,6 +60,9 @@ class plgSocialpromoterStilerospflickr extends JPlugin {
         $this->api_secret = $this->params->def('api_secret');
         $this->auth_token = $this->params->def('auth_token');
         $this->_desc_suffix = $this->params->def('desc_suffix');
+        $this->_defaultTitle = $this->params->def('default_title');
+        $this->_defaultDesc = $this->params->def('default_desc');
+        $this->_defaultTags = $this->params->def('default_tags');
     }
     /**
      * Wraps up after a call. Shows messages
@@ -83,6 +89,44 @@ class plgSocialpromoterStilerospflickr extends JPlugin {
         return $noComma;
     }
     /**
+     * Checks if title is set, otherwise the default title will be returned
+     * @param string $title The title to use
+     * @return string
+     */
+    public function title($title){
+        if($title == ''){
+            return $this->_defaultTitle;
+        }else{
+            return $title;
+        }
+    }
+    
+    /**
+     * Checks if description is set, otherwise the default description will be returned
+     * @param string $desc
+     * @return string
+     */
+    public function description($desc){
+        if($desc == ''){
+            return $this->_defaultDesc;
+        }else{
+            return $desc;
+        }
+    }
+    
+    /**
+     * Checks if tags are set, otherwise the default tags will be returned
+     * @param string $tags
+     * @return string
+     */
+    public function tags($tag){
+        if($tag == ''){
+            return $this->_defaultTags;
+        }else{
+            return $tag;
+        }
+    }
+    /**
      * Posts an image to Flickr
      * @param string $url Full local url to the photo to upload
      * @param string $title The title of the photo.
@@ -96,7 +140,12 @@ class plgSocialpromoterStilerospflickr extends JPlugin {
         $this->Flickr->setAccessToken($this->auth_token);
         $this->Flickr->init();
         $cleanedTags = $this->_cleanTags($tags);
-        $response = $this->Flickr->Photouploader->upload($file, $title, $description, $cleanedTags);
+        $response = $this->Flickr->Photouploader->upload(
+            $file, 
+            $this->title($title), 
+            $this->description($description), 
+            $this->tags($cleanedTags)
+        );
         return $this->_wrapUp($response);
     }
     /**

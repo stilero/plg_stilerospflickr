@@ -6,7 +6,7 @@
     <copyright>Copyright (c) 2013-dec-26 Stilero Webdesign (http://www.stilero.com). All rights reserved.</copyright>
     <authorEmail>joomla@stilero.com</authorEmail>
     <authorUrl>www.stilero.com</authorUrl>
-    <version>1.0</version>
+    <version>1.1</version>
     <license>GPLv2</license>
     <description>Flickr plugin for Social Promoter</description>
     <media destination="stilerospflickr">
@@ -28,6 +28,9 @@
         <fields name="params">
             <fieldset name="basic" label="PLG_SYSTEM_STILEROSPFLICKR_SETTINGS">
                 <field name="desc_suffix" type="text" required="false" default="" label="PLG_SYSTEM_STILEROSPFLICKR_DESC_SUFFIX" description="PLG_SYSTEM_STILEROSPFLICKR_DESC_SUFFIX_DESC"/>
+                <field name="default_title" type="text"  default="" label="PLG_SYSTEM_STILEROSPFLICKR_DEFAULT_TITLE" description="PLG_SYSTEM_STILEROSPFLICKR_DEFAULT_TITLE_DESC"/>
+                <field name="default_desc" type="text"  default="" label="PLG_SYSTEM_STILEROSPFLICKR_DEFAULT_DESC" description="PLG_SYSTEM_STILEROSPFLICKR_DEFAULT_DESC_DESC"/>
+                <field name="default_tags" type="text"  default="" label="PLG_SYSTEM_STILEROSPFLICKR_DEFAULT_TAGS" description="PLG_SYSTEM_STILEROSPFLICKR_DEFAULT_TAGS_DESC"/>
             </fieldset>
             <fieldset name="advanced" label="PLG_SYSTEM_STILEROSPFLICKR_FBSETTINGS" addfieldpath="/plugins/socialpromoter/stilerospflickr/elements">
                 <field name="redirecturl" type="redirecturl" label="PLG_SYSTEM_STILEROSPFLICKR_REDIRECT_URL" description="PLG_SYSTEM_STILEROSPFLICKR_REDIRECT_URL_DESC" />
