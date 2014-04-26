@@ -51,10 +51,4 @@
             </fieldset>
         </fields>
     </config>
-    <administration>
-        <languages folder="language">
-            <language tag="en-GB">en-GB.plg_socialpromoter_stilerospflickr.ini</language>
-            <language tag="en-GB">en-GB.plg_socialpromoter_stilerospflickr.sys.ini</language>
-        </languages>
-    </administration>
 </extension>
