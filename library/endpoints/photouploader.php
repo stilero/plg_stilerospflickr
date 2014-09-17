@@ -19,8 +19,8 @@ class StileroFlickrPhotouploader{
     protected $Api;
     protected $auth_token;
     
-    const API_URL_UPLOAD = 'http://up.flickr.com/services/upload/';
-    const API_URL_REPLACE = 'http://api.flickr.com/services/replace/';
+    const API_URL_UPLOAD = 'https://up.flickr.com/services/upload/';
+    const API_URL_REPLACE = 'https://api.flickr.com/services/replace/';
     const SAFETY_LEVEL_SAFE = 1;
     const SAFETY_LEVEL_MODERATE = 2;
     const SAFETY_LEVEL_RESTRICTED = 3;

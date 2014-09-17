@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class StileroFlickrPhotoscomments extends StileroFlickrCurler{
     
-    const API_URL = 'http://flickr.com/services/rest/';
+    const API_URL = 'https://flickr.com/services/rest/';
     const METHOD_ADD_COMMENTS = 'flickr.photos.comments.addComment';  
     const METHOD_EDIT_COMMENT = 'flickr.photos.comments.editComment';
     const METHOD_DELETE_COMMENT = 'flickr.photos.comments.deleteComment';
