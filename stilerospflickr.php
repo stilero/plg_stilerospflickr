@@ -2,7 +2,7 @@
 /**
  * Stilero Social Promoter Flickr Plugin
  *
- * @version  1.1
+ * @version  1.2
  * @author Daniel Eliasson <daniel at stilero.com>
  * @copyright  (C) 2013-dec-26 Stilero Webdesign (http://www.stilero.com)
  * @category Plugins
@@ -31,6 +31,7 @@ class plgSocialpromoterStilerospflickr extends JPlugin {
     protected $_defaultTitle;
     protected $_defaultDesc;
     protected $_defaultTags;
+    protected $_overrideTags;
     
     const SP_NAME = 'Flickr Plugin';
     const SP_DESCRIPTION = 'Posts photos to Flickr';
@@ -63,6 +64,7 @@ class plgSocialpromoterStilerospflickr extends JPlugin {
         $this->_defaultTitle = $this->params->def('default_title');
         $this->_defaultDesc = $this->params->def('default_desc');
         $this->_defaultTags = $this->params->def('default_tags');
+        $this->_overrideTags = $this->params->def('override_tags');
     }
     /**
      * Wraps up after a call. Shows messages
@@ -120,7 +122,7 @@ class plgSocialpromoterStilerospflickr extends JPlugin {
      * @return string
      */
     public function tags($tag){
-        if($tag == ''){
+        if(($tag == '')||($this->_overrideTags)){
             return $this->_defaultTags;
         }else{
             return $tag;
