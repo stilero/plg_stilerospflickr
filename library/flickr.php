@@ -20,6 +20,7 @@ class StileroFlickr{
     protected $Frob;
     protected $perms;
     public $People;
+    public $Contacts;
     public $Photos;
     public $Photoscomments;
     public $Photouploader;
@@ -36,6 +37,7 @@ class StileroFlickr{
      */
     private function _endpoints(){
         $this->People = new StileroFlickrPeople($this->Api, $this->access_token);
+        $this->Contacts = new StileroFlickrContacts($this->Api, $this->access_token);
         $this->Photos = new StileroFlickrPhotos($this->Api, $this->access_token);
         $this->Photoscomments = new StileroFlickrPhotoscomments($this->Api, $this->access_token);
         $this->Photouploader = new StileroFlickrPhotouploader($this->Api, $this->access_token);

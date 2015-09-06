@@ -2,7 +2,7 @@
 /**
  * Curler Class for sending requests
  *
- * @version  1.0
+ * @version  1.1
  * @package Stilero
  * @subpackage Flickr_API
  * @author Daniel Eliasson <daniel at stilero.com>
@@ -107,6 +107,9 @@ class StileroFlickrCurler{
         curl_setopt($this->curl, CURLOPT_POSTFIELDS, $this->params);
         $response=curl_exec($this->curl);
         curl_close ($this->curl);
-        return $response;
+        $data = str_replace( 'jsonFlickrApi(', '', $response );
+        $data = substr( $data, 0, strlen( $data ) - 1 ); //strip out last paren
+
+        return $data;
     }
 }

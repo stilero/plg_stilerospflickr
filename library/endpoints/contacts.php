@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class StileroFlickrContacts extends StileroFlickrCurler{
     
-    const API_URL = 'http://flickr.com/services/rest/';
+    const API_URL = 'https://flickr.com/services/rest/';
     const METHOD_GET_LIST = 'flickr.contacts.getList';
     
     public function __construct(\StileroFlickrApi $Api, $auth_token) {
@@ -30,7 +30,7 @@ class StileroFlickrContacts extends StileroFlickrCurler{
      */
     public function getList(){
         $params = array(
-            'method' => self::METHOD_GET_LIST
+            'method' => self::METHOD_GET_LIST        
         );
         return $this->curlIt(self::API_URL, $params);
     }
